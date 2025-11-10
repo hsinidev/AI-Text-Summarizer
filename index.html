@@ -1,0 +1,747 @@
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Text Summarizer | Instant & Accurate Summaries with LLMs</title>
+    <meta name="description" content="Instantly summarize long articles, documents, and texts with our free AI-powered summarizer. Configure your own Ollama Cloud or external LLM endpoint for fast, accurate, and secure summarization.">
+    <meta name="keywords" content="ai summarizer, text summarizer, summarize text, llm summarizer, ollama cloud, article summarizer, free summarizer, online tool">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes cosmic-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .cosmic-background {
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #0f0c29);
+            background-size: 400% 400%;
+            animation: cosmic-flow 30s ease infinite;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        textarea {
+            resize: vertical;
+        }
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal:not(.is-open) {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .modal.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .faq-item .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 1000px; /* Large enough for content */
+        }
+        .faq-item .faq-arrow {
+            transition: transform 0.3s ease;
+        }
+        .faq-item.open .faq-arrow {
+            transform: rotate(180deg);
+        }
+        #seo-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 1s ease-in-out;
+        }
+        #seo-content.expanded {
+            max-height: 50000px; /* large enough for the content */
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "url": "https://doodax.com/ai-summarizer",
+          "name": "AI Text Summarizer",
+          "description": "A free online tool to summarize text using configurable AI models like Ollama Cloud.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "HSINI MOHAMED",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://doodax.com/ai-summarizer/favicon.svg"
+            }
+          }
+        },
+        {
+          "@type": "WebApplication",
+          "name": "AI Text Summarizer",
+          "operatingSystem": "All",
+          "applicationCategory": "ProductivityApplication",
+          "offers": {
+            "@type": "Offer",
+            "price": "0"
+          },
+          "description": "Instantly summarize text by connecting to your own external LLM service like Ollama Cloud. Provides options for summary length and style."
+        },
+        {
+          "@type": "Article",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://doodax.com/ai-summarizer"
+          },
+          "headline": "The Ultimate Guide to AI Text Summarization and its Applications",
+          "author": {
+            "@type": "Person",
+            "name": "HSINI MOHAMED"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "HSINI MOHAMED",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://doodax.com/ai-summarizer/favicon.svg"
+            }
+          },
+          "datePublished": "2023-10-27",
+          "dateModified": "2023-10-27",
+          "articleBody": "In an era of information overload, the ability to quickly distill vast amounts of text into concise, understandable summaries is no longer a luxury—it's a necessity..."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is AI text summarization?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AI text summarization is the process of using artificial intelligence, particularly natural language processing (NLP) and large language models (LLMs), to automatically create a short, coherent, and accurate summary of a longer piece of text."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the difference between extractive and abstractive summarization?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Extractive summarization involves selecting and combining the most important sentences or phrases directly from the source text to form a summary. Abstractive summarization, powered by advanced LLMs, involves generating new sentences that capture the essence of the original text, often using different wording, much like a human would."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why is it beneficial to use my own Ollama Cloud or Workers AI endpoint?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Using your own endpoint offers several advantages, including enhanced privacy (your data isn't stored on a third-party server), cost control, and the ability to use custom or fine-tuned models tailored to your specific needs."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can AI summarizers handle technical or specialized documents?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, modern AI summarizers, especially those based on large language models like Gemini, Llama, or Mistral, are trained on vast datasets that include technical and specialized information. They can effectively summarize complex topics from fields like law, medicine, and engineering."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is the summary generated by an AI always 100% accurate?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "While AI summarizers are highly accurate, they are not infallible. They can occasionally misinterpret nuance or omit a key detail. It's always a good practice to review the summary and compare it with the source text for critical applications."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+<body class="text-gray-200 font-sans">
+    <div class="cosmic-background"></div>
+    <div class="relative min-h-screen flex flex-col items-center p-4 sm:p-6 lg:p-8">
+        
+        <!-- Header -->
+        <header class="w-full max-w-7xl mx-auto flex justify-between items-center py-4 px-2 border-b border-gray-700/50">
+            <div class="flex items-center space-x-3">
+                <img src="favicon.svg" alt="Logo" class="h-8 w-8">
+                <span class="text-2xl font-bold text-white">AI Summarizer</span>
+            </div>
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-300">
+                <a href="#about" class="hover:text-white transition-colors modal-trigger" data-modal-id="modal-about">About</a>
+                <a href="#guide" class="hover:text-white transition-colors modal-trigger" data-modal-id="modal-guide">Guide</a>
+                <a href="#contact" class="hover:text-white transition-colors modal-trigger" data-modal-id="modal-contact">Contact</a>
+                <a href="#privacy" class="hover:text-white transition-colors modal-trigger" data-modal-id="modal-privacy">Privacy</a>
+                <a href="#tos" class="hover:text-white transition-colors modal-trigger" data-modal-id="modal-tos">ToS</a>
+                <a href="#dmca" class="hover:text-white transition-colors modal-trigger" data-modal-id="modal-dmca">DMCA</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md hover:bg-gray-700/50">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </header>
+        <div id="mobile-menu" class="hidden md:hidden w-full max-w-7xl mx-auto mt-2 bg-gray-800/80 backdrop-blur-sm rounded-lg p-4">
+             <nav class="flex flex-col space-y-4 text-center">
+                <a href="#about" class="hover:text-white transition-colors modal-trigger" data-modal-id="modal-about">About</a>
+                <a href="#guide" class="hover:text-white transition-colors modal-trigger" data-modal-id="modal-guide">Guide</a>
+                <a href="#contact" class="hover:text-white transition-colors modal-trigger" data-modal-id="modal-contact">Contact</a>
+                <a href="#privacy" class="hover:text-white transition-colors modal-trigger" data-modal-id="modal-privacy">Privacy</a>
+                <a href="#tos" class="hover:text-white transition-colors modal-trigger" data-modal-id="modal-tos">ToS</a>
+                <a href="#dmca" class="hover:text-white transition-colors modal-trigger" data-modal-id="modal-dmca">DMCA</a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <main class="w-full max-w-7xl mx-auto flex-grow flex flex-col items-center mt-8">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-center text-white mb-4">Summarize Your Text Instantly</h1>
+            <p class="text-lg text-gray-400 text-center max-w-3xl mb-10">Paste your text, configure your settings, and let our AI provide a concise summary. Powered by your own external LLM endpoint for ultimate privacy and control.</p>
+
+            <!-- Config and Options -->
+            <div class="w-full bg-gray-900/50 backdrop-blur-md border border-gray-700/50 rounded-xl p-6 mb-8 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+                    <!-- API Config -->
+                    <div>
+                        <label for="api-endpoint" class="block text-sm font-medium text-gray-300 mb-2">Ollama Cloud / Workers AI Endpoint URL</label>
+                        <input type="text" id="api-endpoint" class="w-full bg-gray-800 border border-gray-600 rounded-md px-4 py-2 text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition" placeholder="e.g., https://api.example.com/summarize">
+                        <p class="text-xs text-gray-500 mt-1">Your private LLM endpoint. We remember this in your browser.</p>
+                    </div>
+                    <!-- Summary Length -->
+                    <div>
+                        <label for="summary-length" class="block text-sm font-medium text-gray-300 mb-2">Summary Length: <span id="summary-length-value">3</span> sentences</label>
+                        <input type="range" id="summary-length" min="1" max="10" value="3" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                    </div>
+                </div>
+                <!-- Output Style -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-3">Output Style</label>
+                    <div class="flex items-center space-x-6">
+                        <div class="flex items-center">
+                            <input id="style-paragraph" name="output-style" type="radio" value="paragraph" class="h-4 w-4 text-indigo-600 bg-gray-700 border-gray-500 focus:ring-indigo-500" checked>
+                            <label for="style-paragraph" class="ml-3 block text-sm font-medium text-gray-300">Concise Paragraph</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="style-bullets" name="output-style" type="radio" value="bullets" class="h-4 w-4 text-indigo-600 bg-gray-700 border-gray-500 focus:ring-indigo-500">
+                            <label for="style-bullets" class="ml-3 block text-sm font-medium text-gray-300">Key Sentences (Bullet Points)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summarizer UI -->
+            <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- Input Panel -->
+                <div class="bg-gray-900/50 backdrop-blur-md border border-gray-700/50 rounded-xl p-1 flex flex-col">
+                    <div class="flex justify-between items-center p-3">
+                         <h2 class="text-lg font-semibold text-white">Input Text</h2>
+                         <div id="text-counter" class="text-sm text-gray-400">0 words, 0 characters</div>
+                    </div>
+                    <textarea id="input-text" class="w-full h-96 flex-grow bg-transparent text-gray-300 p-4 rounded-b-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Paste your long text here..."></textarea>
+                </div>
+
+                <!-- Output Panel -->
+                <div class="bg-gray-900/50 backdrop-blur-md border border-gray-700/50 rounded-xl p-1 flex flex-col">
+                     <div class="flex justify-between items-center p-3">
+                         <h2 class="text-lg font-semibold text-white">Summary Output</h2>
+                         <button id="copy-button" class="flex items-center text-sm text-gray-400 hover:text-white transition-colors disabled:opacity-50" aria-label="Copy summary to clipboard">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                         </button>
+                    </div>
+                    <textarea id="output-text" class="w-full h-96 flex-grow bg-gray-800/50 text-gray-300 p-4 rounded-b-lg focus:outline-none" placeholder="Your summary will appear here..." readonly></textarea>
+                </div>
+            </div>
+
+            <!-- Action Button & Loader -->
+            <div class="w-full flex justify-center items-center mb-12">
+                <button id="summarize-button" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-bold py-3 px-10 rounded-lg text-lg hover:opacity-90 transition-opacity transform hover:scale-105 shadow-lg">
+                    Summarize Text
+                </button>
+                <div id="loader" class="hidden">
+                    <svg class="animate-spin h-10 w-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" role="status" aria-label="Loading">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
+            </div>
+            <div id="error-message" class="w-full max-w-2xl text-center text-red-400 bg-red-900/50 border border-red-700 rounded-lg p-3 mb-8 hidden" aria-live="polite"></div>
+
+
+            <!-- SEO Content Section -->
+            <div class="w-full max-w-4xl mx-auto bg-gray-900/50 backdrop-blur-md border border-gray-700/50 rounded-xl p-6 md:p-10 my-12">
+                 <button id="read-more-button" class="text-indigo-400 hover:text-indigo-300 font-semibold text-lg mx-auto block">Read More About AI Summarization &darr;</button>
+                 <div id="seo-content" class="mt-6 prose prose-invert max-w-none prose-h2:text-2xl prose-h2:border-b prose-h2:border-gray-600 prose-h2:pb-2 prose-h3:text-xl prose-a:text-indigo-400 hover:prose-a:text-indigo-300 prose-table:border prose-table:border-gray-600 prose-thead:bg-gray-800 prose-th:p-2 prose-td:p-2 prose-td:border-t prose-td:border-gray-600">
+                    <h2>The Ultimate Guide to AI Text Summarization and its Applications</h2>
+                    <p>In an era of information overload, the ability to quickly distill vast amounts of text into concise, understandable summaries is no longer a luxury—it's a necessity. From students grappling with dense academic papers to executives needing to understand market reports, the demand for efficient information processing is universal. This is where AI text summarization tools, powered by advanced Large Language Models (LLMs) like those available through Ollama Cloud, come into play, revolutionizing how we consume and interact with written content.</p>
+                    
+                    <nav>
+                        <h3 id="toc">Table of Contents</h3>
+                        <ul>
+                            <li><a href="#what-is-ai-summarization">What is AI Text Summarization?</a></li>
+                            <li><a href="#extractive-vs-abstractive">The Two Pillars: Extractive vs. Abstractive Summarization</a></li>
+                            <li><a href="#how-llms-changed-game">How LLMs Changed the Game</a></li>
+                            <li><a href="#use-cases">Key Use Cases and Applications</a></li>
+                            <li><a href="#benefits">The Tangible Benefits of Using an AI Summarizer</a></li>
+                            <li><a href="#choosing-tool">Choosing the Right Tool: The Power of Your Own Endpoint</a></li>
+                            <li><a href="#limitations">Understanding the Limitations</a></li>
+                            <li><a href="#conclusion">Conclusion: The Future is Concise</a></li>
+                            <li><a href="#faq">Frequently Asked Questions (FAQ)</a></li>
+                        </ul>
+                    </nav>
+
+                    <h3 id="what-is-ai-summarization">What is AI Text Summarization?</h3>
+                    <p>At its core, AI text summarization is the process of using artificial intelligence to create a short, coherent, and accurate summary of a longer document. It leverages a subfield of AI called Natural Language Processing (NLP) to understand the content, context, and key themes of the text. Early summarizers were rudimentary, often just picking out sentences with specific keywords. However, the advent of sophisticated LLMs has elevated this technology to a level where it can comprehend nuance, context, and semantic relationships, producing summaries that are remarkably human-like.</p>
+                    
+                    <h3 id="extractive-vs-abstractive">The Two Pillars: Extractive vs. Abstractive Summarization</h3>
+                    <p>AI summarization techniques are broadly categorized into two types:</p>
+                    <ul>
+                        <li><strong>Extractive Summarization:</strong> This is the more traditional approach. The AI model scans the text, assigns an importance score to each sentence based on factors like word frequency and position, and then extracts the highest-scoring sentences to form a summary. It's like using a highlighter on the most critical parts of a document. While effective for getting the main points, it can sometimes result in summaries that feel disjointed because the sentences are lifted verbatim without any connective tissue.</li>
+                        <li><strong>Abstractive Summarization:</strong> This is where modern LLMs truly shine. Instead of just picking sentences, an abstractive model reads and 'understands' the entire text. It then generates entirely new sentences, paraphrasing the original content to create a more fluid, natural-sounding summary. This method mimics how a human would summarize a text, capturing the core essence rather than just the literal words. Our tool allows you to choose between a "Key Sentences" (extractive-style) or a "Concise Paragraph" (abstractive-style) output to suit your needs.</li>
+                    </ul>
+
+                    <h3 id="how-llms-changed-game">How Large Language Models (LLMs) Changed the Game</h3>
+                    <p>Large Language Models like Gemini, GPT-4, Llama, and Mistral are the engines driving the new wave of AI summarizers. These models are trained on trillions of words from books, articles, websites, and more. This extensive training allows them to:</p>
+                    <ul>
+                        <li><strong>Understand Context:</strong> They can differentiate between the various meanings of a word based on the surrounding text.</li>
+                        <li><strong>Identify Key Concepts:</strong> They go beyond keywords to identify the central arguments and themes of a document.</li>
+                        <li><strong>Paraphrase Effectively:</strong> Their vast linguistic knowledge enables them to rephrase complex ideas into simpler, more concise language.</li>
+                        <li><strong>Maintain Coherence:</strong> They can generate summaries that flow logically and are grammatically correct.</li>
+                    </ul>
+                    <p>When you use a tool connected to an endpoint from a service like Ollama Cloud or a custom AI Worker, you are harnessing the power of these massive models for your personal or professional tasks.</p>
+
+                    <h3 id="use-cases">Key Use Cases and Applications Across Industries</h3>
+                    <p>The applications of AI summarization are vast and transformative:</p>
+                    <ul>
+                        <li><strong>Academic Research:</strong> Students and researchers can quickly review abstracts and summaries of countless research papers, identifying relevant literature in a fraction of the time.</li>
+                        <li><strong>Business Intelligence:</strong> Analysts can summarize lengthy market reports, financial statements, and competitor analyses to derive key insights for strategic decision-making.</li>
+                        <li><strong>Legal Professionals:</strong> Lawyers and paralegals can condense long legal documents, case files, and depositions to quickly grasp the essential facts and arguments.</li>
+                        <li><strong>Healthcare:</strong> Doctors can get summaries of patient histories or the latest medical research to stay informed and make better clinical decisions.</li>
+                        <li><strong>Media and Journalism:</strong> Journalists can summarize press releases, transcripts, and source materials to speed up the news-writing process.</li>
+                        <li><strong>Personal Productivity:</strong> Anyone can summarize long emails, news articles, or book chapters to stay informed without spending hours reading.</li>
+                    </ul>
+
+                    <h3 id="benefits">The Tangible Benefits of Using an AI Summarizer</h3>
+                    <p>Integrating an AI summarizer into your workflow provides significant advantages:</p>
+                    <ul>
+                        <li><strong>Massive Time Savings:</strong> The most obvious benefit. Reduce reading time from hours to minutes, freeing you up for more critical tasks like analysis and action.</li>
+                        <li><strong>Increased Productivity:</strong> By processing information faster, you can accomplish more. A team equipped with summarization tools can cover more ground and make faster, more informed decisions.</li>
+                        <li><strong>Improved Comprehension:</strong> A good summary can clarify complex topics by stripping away jargon and focusing on the core message, making difficult material more accessible.</li>
+                        <li><strong>Enhanced Research Capabilities:</strong> AI allows you to cast a wider net, reviewing more sources than would be manually possible, leading to more comprehensive and well-rounded research.</li>
+                        <li><strong>Scalability:</strong> Summarize one document or ten thousand. AI tools handle high volumes of text without fatigue or a drop in quality.</li>
+                    </ul>
+                    
+                    <h4 id="comparison-table">Comparison of Summarization Styles</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Key Sentences (Extractive)</th>
+                                <th>Concise Paragraph (Abstractive)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Method</strong></td>
+                                <td>Selects important sentences from the source.</td>
+                                <td>Generates new sentences to convey meaning.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Fidelity</strong></td>
+                                <td>High (uses original wording).</td>
+                                <td>Variable (rephrases content).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Readability</strong></td>
+                                <td>Can sometimes be disjointed.</td>
+                                <td>Generally smooth and coherent.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Use Case</strong></td>
+                                <td>Quickly identifying key facts and quotes.</td>
+                                <td>Getting a holistic, easy-to-read overview.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Length Reduction</strong></td>
+                                <td>Highly effective, based on sentence count.</td>
+                                <td>Very high, creates dense and efficient summaries.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3 id="choosing-tool">Choosing the Right Tool: The Power of Your Own Endpoint</h3>
+                    <p>While many free summarization websites exist, they often come with trade-offs in privacy, advertising, or data usage. A tool that allows you to connect to your own LLM endpoint—whether it's a self-hosted model via Ollama or a serverless function via Cloudflare Workers AI—puts you in complete control.
+                    <br><br>
+                    <strong>Why is this important?</strong>
+                    </p>
+                    <ul>
+                        <li><strong>Privacy and Security:</strong> When dealing with sensitive or proprietary information, sending it to a third-party service is a risk. Using your own endpoint ensures your data remains within your control and is processed according to your security standards.</li>
+                        <li><strong>Customization:</strong> You can use specialized or fine-tuned models. For example, you might have an LLM fine-tuned on legal documents for superior legal summarization.</li>
+                        <li><strong>No Rate Limits (or Your Own):</strong> You are not subject to the usage limits of a free public service. You can process as much text as your own infrastructure allows.</li>
+                        <li><strong>Cost-Effectiveness at Scale:</strong> For heavy users, running your own model can be more economical than paying for a high-tier commercial API.</li>
+                    </ul>
+
+                    <h3 id="limitations">Understanding the Limitations</h3>
+                    <p>Despite their power, it's crucial to be aware of the limitations of AI summarizers:</p>
+                    <ul>
+                        <li><strong>Nuance and Sarcasm:</strong> AI can sometimes miss subtle humor, sarcasm, or deep emotional nuance that a human reader would catch.</li>
+                        <li><strong>Potential for Bias:</strong> Since LLMs are trained on human-generated text, they can inadvertently reflect the biases present in their training data.</li>
+                        <li><strong>Factual Hallucinations (Abstractive):</strong> In rare cases, abstractive models can "hallucinate" or generate information that wasn't in the original text. It's always wise to fact-check critical details against the source.</li>
+                        <li><strong>Loss of Detail:</strong> By its very nature, summarization involves omitting information. The AI makes its best judgment about what to cut, but this might not always align perfectly with the user's priorities.</li>
+                    </ul>
+
+                    <h3 id="conclusion">Conclusion: The Future is Concise</h3>
+                    <p>AI text summarization is more than just a convenience; it's a fundamental tool for navigating the modern information landscape. By transforming lengthy texts into manageable summaries, these AI-powered assistants empower us to learn faster, work smarter, and make more informed decisions. As LLMs continue to evolve, their ability to understand and synthesize information will only become more sophisticated, further integrating them into our daily digital lives. Embracing these tools, especially with the added control of using your own endpoint, is a crucial step toward mastering information and unlocking new levels of productivity.</p>
+                    
+                    <div id="faq" class="mt-12">
+                        <h3>Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <!-- FAQ Item 1 -->
+                            <div class="faq-item bg-gray-800/50 rounded-lg border border-gray-700">
+                                <button class="faq-question w-full flex justify-between items-center p-4 text-left font-semibold">
+                                    <span>What is AI text summarization?</span>
+                                    <svg class="faq-arrow w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="faq-answer px-4 pb-4 text-gray-400">
+                                    <p>AI text summarization is the process of using artificial intelligence, particularly natural language processing (NLP) and large language models (LLMs), to automatically create a short, coherent, and accurate summary of a longer piece of text. It helps users quickly understand the main points of a document without reading it in its entirety.</p>
+                                </div>
+                            </div>
+                            <!-- FAQ Item 2 -->
+                            <div class="faq-item bg-gray-800/50 rounded-lg border border-gray-700">
+                                <button class="faq-question w-full flex justify-between items-center p-4 text-left font-semibold">
+                                    <span>What is the difference between extractive and abstractive summarization?</span>
+                                    <svg class="faq-arrow w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="faq-answer px-4 pb-4 text-gray-400">
+                                    <p>Extractive summarization involves selecting and combining the most important sentences or phrases directly from the source text to form a summary. Abstractive summarization, powered by advanced LLMs, involves generating new sentences that capture the essence of the original text, often using different wording, much like a human would.</p>
+                                </div>
+                            </div>
+                            <!-- FAQ Item 3 -->
+                             <div class="faq-item bg-gray-800/50 rounded-lg border border-gray-700">
+                                <button class="faq-question w-full flex justify-between items-center p-4 text-left font-semibold">
+                                    <span>Why is it beneficial to use my own Ollama Cloud or Workers AI endpoint?</span>
+                                    <svg class="faq-arrow w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="faq-answer px-4 pb-4 text-gray-400">
+                                    <p>Using your own endpoint offers several advantages, including enhanced privacy (your data isn't stored on a third-party server), cost control, customization (using fine-tuned models), and avoiding the rate limits or restrictions of public services.</p>
+                                </div>
+                            </div>
+                            <!-- FAQ Item 4 -->
+                             <div class="faq-item bg-gray-800/50 rounded-lg border border-gray-700">
+                                <button class="faq-question w-full flex justify-between items-center p-4 text-left font-semibold">
+                                    <span>Can AI summarizers handle technical or specialized documents?</span>
+                                    <svg class="faq-arrow w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="faq-answer px-4 pb-4 text-gray-400">
+                                    <p>Yes, modern AI summarizers, especially those based on large language models like Gemini, Llama, or Mistral, are trained on vast datasets that include technical and specialized information. They can effectively summarize complex topics from fields like law, medicine, and engineering, though accuracy may vary based on the model's specific training.</p>
+                                </div>
+                            </div>
+                             <!-- FAQ Item 5 -->
+                             <div class="faq-item bg-gray-800/50 rounded-lg border border-gray-700">
+                                <button class="faq-question w-full flex justify-between items-center p-4 text-left font-semibold">
+                                    <span>Is the summary generated by an AI always 100% accurate?</span>
+                                    <svg class="faq-arrow w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="faq-answer px-4 pb-4 text-gray-400">
+                                    <p>While AI summarizers are highly accurate, they are not infallible. They can occasionally misinterpret nuance or omit a key detail. Abstractive models may also rarely "hallucinate" facts. It's always a good practice to review the summary and compare it with the source text for critical applications to ensure complete accuracy.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+        </main>
+        
+        <!-- Footer -->
+        <footer class="w-full max-w-7xl mx-auto text-center mt-12 py-6 border-t border-gray-700/50 text-gray-500 text-sm">
+            <p>&copy; 2024 AI Text Summarizer. All Rights Reserved.</p>
+            <p class="mt-2">
+                <span class="text-gold-400" style="color: #FFD700;">Powered by <a href="https://github.com/hsinidev" target="_blank" rel="noopener noreferrer" class="hover:underline">HSINI MOHAMED</a></span>
+            </p>
+             <p class="mt-2 space-x-4">
+                <a href="https://doodax.com" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300">doodax.com</a>
+                <span>&bull;</span>
+                <a href="mailto:hsini.web@gmail.com" class="hover:text-gray-300">hsini.web@gmail.com</a>
+            </p>
+        </footer>
+    </div>
+    
+    <!-- Modals -->
+    <div id="modal-container">
+        <!-- About Modal -->
+        <div id="modal-about" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4">
+            <div class="bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-full overflow-y-auto" role="dialog" aria-modal="true">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-white">About Us</h3>
+                        <button class="modal-close text-gray-400 hover:text-white">&times;</button>
+                    </div>
+                    <p class="text-gray-300">This AI Text Summarizer is a powerful, privacy-focused tool designed to help you quickly understand large volumes of text. We believe in empowering users by allowing them to connect to their own LLM services, ensuring data security and control. This project was developed by HSINI MOHAMED as a showcase of modern web technologies and AI integration.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Guide Modal -->
+        <div id="modal-guide" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4">
+            <div class="bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-full overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-white">How to Use</h3>
+                        <button class="modal-close text-gray-400 hover:text-white">&times;</button>
+                    </div>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                        <li><strong>Enter your Endpoint:</strong> Paste the full URL of your external LLM API (like Ollama Cloud or a Workers AI script) into the 'Endpoint URL' field. The app will remember it for next time.</li>
+                        <li><strong>Adjust Settings:</strong> Use the slider to set the desired number of sentences for your summary. Choose between a 'Concise Paragraph' or 'Key Sentences' for the output style.</li>
+                        <li><strong>Input Text:</strong> Paste the text you want to summarize into the left-hand text area.</li>
+                        <li><strong>Summarize:</strong> Click the 'Summarize Text' button.</li>
+                        <li><strong>Get Result:</strong> The AI-generated summary will appear in the right-hand text area. Use the copy button for easy copying.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- Contact Modal -->
+        <div id="modal-contact" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4">
+            <div class="bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-full overflow-y-auto">
+                <div class="p-6">
+                     <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-white">Contact</h3>
+                        <button class="modal-close text-gray-400 hover:text-white">&times;</button>
+                    </div>
+                    <p class="text-gray-300">For inquiries, feedback, or support, please reach out via email to <a href="mailto:hsini.web@gmail.com" class="text-indigo-400 hover:underline">hsini.web@gmail.com</a>. You can also visit my portfolio at <a href="https://doodax.com" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:underline">doodax.com</a> or my GitHub profile at <a href="https://github.com/hsinidev" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:underline">github.com/hsinidev</a>.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Privacy Modal -->
+        <div id="modal-privacy" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4">
+            <div class="bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-full overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-white">Privacy Policy</h3>
+                        <button class="modal-close text-gray-400 hover:text-white">&times;</button>
+                    </div>
+                    <p class="text-gray-300">We take your privacy seriously. This application is designed to be stateless. We do not store, log, or analyze your input text or your generated summaries on our servers. The API endpoint URL you provide is saved only in your browser's local storage for convenience and is never transmitted to us. All processing is done via a direct `fetch` call from your browser to the endpoint you provide. Your data never touches our infrastructure.</p>
+                </div>
+            </div>
+        </div>
+        <!-- ToS Modal -->
+        <div id="modal-tos" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4">
+            <div class="bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-full overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-white">Terms of Service</h3>
+                        <button class="modal-close text-gray-400 hover:text-white">&times;</button>
+                    </div>
+                    <p class="text-gray-300">This tool is provided "as is" without any warranties. By using this service, you agree that you are responsible for the content you process and for complying with the terms of service of the external LLM endpoint you use. We are not liable for any issues, errors, or consequences arising from the use of this tool or the summaries it generates. Use it at your own risk and for lawful purposes only.</p>
+                </div>
+            </div>
+        </div>
+        <!-- DMCA Modal -->
+        <div id="modal-dmca" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4">
+            <div class="bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-full overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-white">DMCA</h3>
+                        <button class="modal-close text-gray-400 hover:text-white">&times;</button>
+                    </div>
+                    <p class="text-gray-300">This tool does not host any content. Users are responsible for ensuring they have the rights to the text they are summarizing. If you believe your copyrighted work is being processed through our tool without authorization via a user's action, please contact us at <a href="mailto:hsini.web@gmail.com" class="text-indigo-400 hover:underline">hsini.web@gmail.com</a>. However, as we do not store user data, our ability to act is limited. We recommend contacting the provider of the external LLM endpoint being used.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Element Selectors & Constants ---
+            const apiEndpointInput = document.getElementById('api-endpoint');
+            const summaryLengthSlider = document.getElementById('summary-length');
+            const summaryLengthValue = document.getElementById('summary-length-value');
+            const inputTextarea = document.getElementById('input-text');
+            const outputTextarea = document.getElementById('output-text');
+            const summarizeButton = document.getElementById('summarize-button');
+            const loader = document.getElementById('loader');
+            const errorMessageDiv = document.getElementById('error-message');
+            const textCounter = document.getElementById('text-counter');
+            const copyButton = document.getElementById('copy-button');
+            const readMoreButton = document.getElementById('read-more-button');
+            const seoContent = document.getElementById('seo-content');
+            const API_ENDPOINT_KEY = 'ai_summarizer_api_endpoint';
+
+            // --- Initialization ---
+            const savedEndpoint = localStorage.getItem(API_ENDPOINT_KEY);
+            if (savedEndpoint) {
+                apiEndpointInput.value = savedEndpoint;
+            }
+
+            // --- Event Listeners ---
+
+            // Update summary length display
+            summaryLengthSlider.addEventListener('input', () => {
+                summaryLengthValue.textContent = summaryLengthSlider.value;
+            });
+            
+            // Update word/character counter
+            inputTextarea.addEventListener('input', () => {
+                const text = inputTextarea.value;
+                const words = text.trim().split(/\s+/).filter(Boolean).length;
+                const chars = text.length;
+                textCounter.textContent = `${words} words, ${chars} characters`;
+            });
+
+            // Handle Summarize button click
+            summarizeButton.addEventListener('click', handleSummarize);
+            
+            // Handle Copy button click
+            copyButton.addEventListener('click', () => {
+                if(outputTextarea.value) {
+                    navigator.clipboard.writeText(outputTextarea.value)
+                        .then(() => {
+                            const originalContent = copyButton.innerHTML;
+                            copyButton.innerHTML = `
+                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-green-400 text-sm ml-1">Copied!</span>`;
+                            copyButton.disabled = true;
+                            setTimeout(() => {
+                                copyButton.innerHTML = originalContent;
+                                copyButton.disabled = false;
+                            }, 2000);
+                        })
+                        .catch(err => {
+                             console.error('Failed to copy text: ', err);
+                             showError('Could not copy text to clipboard.');
+                        });
+                }
+            });
+
+            // Toggle SEO content
+            readMoreButton.addEventListener('click', () => {
+                const isExpanded = seoContent.classList.toggle('expanded');
+                readMoreButton.innerHTML = isExpanded ? 'Show Less &uarr;' : 'Read More About AI Summarization &darr;';
+            });
+            
+            // Toggle FAQ items
+            document.querySelectorAll('.faq-question').forEach(button => {
+                button.addEventListener('click', () => {
+                    const faqItem = button.closest('.faq-item');
+                    faqItem.classList.toggle('open');
+                });
+            });
+
+            // --- Modal Logic ---
+            document.querySelectorAll('.modal-trigger').forEach(trigger => {
+                trigger.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const modal = document.getElementById(trigger.getAttribute('data-modal-id'));
+                    if (modal) modal.classList.add('is-open');
+                });
+            });
+
+            document.querySelectorAll('.modal-close, .modal').forEach(el => {
+                el.addEventListener('click', (event) => {
+                    if (event.target === el) {
+                        el.closest('.modal').classList.remove('is-open');
+                    }
+                });
+            });
+
+            // Mobile menu toggle
+            document.getElementById('mobile-menu-button').addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.toggle('hidden');
+            });
+
+
+            // --- Core Summarization Logic ---
+            async function handleSummarize() {
+                const endpoint = apiEndpointInput.value.trim();
+                const text = inputTextarea.value.trim();
+                const length = summaryLengthSlider.value;
+                const style = document.querySelector('input[name="output-style"]:checked').value;
+
+                // Validation
+                if (!endpoint) {
+                    showError("Please provide an API endpoint URL.");
+                    return;
+                }
+                if (!text) {
+                    showError("Please enter some text to summarize.");
+                    return;
+                }
+
+                // Save endpoint for next time
+                localStorage.setItem(API_ENDPOINT_KEY, endpoint);
+                setLoading(true);
+                outputTextarea.value = '';
+
+                const prompt = `Summarize the following text into approximately ${length} sentences. The output style should be a "${style}".\n\nText:\n"""\n${text}\n"""`;
+
+                try {
+                    // IMPORTANT: API PAYLOAD STRUCTURE
+                    // The structure of this `payload` object is a common format for Ollama.
+                    // However, different LLM APIs expect different formats.
+                    // For example, an OpenAI-compatible API might need:
+                    // const payload = {
+                    //   "model": "gpt-3.5-turbo",
+                    //   "messages": [{"role": "user", "content": prompt}]
+                    // };
+                    // Please ADJUST this payload to match the documentation of YOUR specific API endpoint.
+                    const payload = {
+                        prompt: prompt,
+                        model: "llama3", // This may be ignored if your endpoint is tied to a specific model
+                        stream: false
+                    };
+                    
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.text();
+                        throw new Error(`API Error (${response.status}): ${errorData}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    // The path to the summary text can vary GREATLY between APIs.
+                    // Common paths: data.response, data.summary, data.choices[0].text, data.choices[0].message.content, data.result.response
+                    const summary = data.response || data.summary || (data.choices && data.choices[0].message.content) || (data.choices && data.choices[0].text) || JSON.stringify(data, null, 2);
+                    
+                    outputTextarea.value = summary.trim();
+
+                } catch (error) {
+                    console.error('Summarization Error:', error);
+                    let friendlyMessage = 'An unexpected error occurred. Check the console for details.';
+                    if (error instanceof TypeError) { // Often a network error, CORS, or invalid URL
+                        friendlyMessage = 'Network error or invalid API endpoint. Please check the URL, network connection, and CORS settings.';
+                    } else if (error.message.includes('API Error')) {
+                        friendlyMessage = error.message; // Use the message we constructed
+                    }
+                    showError(friendlyMessage);
+                } finally {
+                    setLoading(false);
+                }
+            }
+            
+            function setLoading(isLoading) {
+                if (isLoading) {
+                    summarizeButton.classList.add('hidden');
+                    loader.classList.remove('hidden');
+                    errorMessageDiv.classList.add('hidden');
+                } else {
+                    summarizeButton.classList.remove('hidden');
+                    loader.classList.add('hidden');
+                }
+            }
+            
+            function showError(message) {
+                errorMessageDiv.textContent = message;
+                errorMessageDiv.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

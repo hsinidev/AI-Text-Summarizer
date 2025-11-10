@@ -1,0 +1,5 @@
+{
+  "name": "AI Text Summarizer",
+  "description": "A self-contained, single-file web application for summarizing text using external LLM services. Features a cosmic dark theme, advanced summarization options, and comprehensive SEO content.",
+  "requestFramePermissions": []
+}
